@@ -1,0 +1,3 @@
+config MEMLOG
+	bool "In-memory rollback log for file system transactions."
+	default y
