@@ -22,11 +22,11 @@ This repository includes two main components:
 1. `linux-3.18.22-mod`. This contains the modified Linux kernel for TxFS. 
 2. `benchmark`. Contains benchmarks used to evaluate TxFS.
 
+Inside `linux-3.18.22-mod`, compiling the kernel follows the standard method of `configure` and `make`.  To see examples of TxFS in action, check out the examples inside `benchmark`.
+
 ___
 
 ### Contact
 
 Please contact us at `yige@cs.utexas.edu` with any questions.  Drop
 us a note if you would like to use TxFS in your research. 
-
-
