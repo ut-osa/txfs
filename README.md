@@ -1,7 +1,7 @@
 ## The Texas Transactional File System (TxFS)
 
 TxFS is a novel transactional file system that
-builds upon a file system’s atomic-update mechanism
+builds upon the file system’s atomic-update mechanism
 such as journaling. Though prior work has explored a
 number of transactional file systems, TxFS has a unique
 set of properties: a simple API, portability across different
@@ -41,6 +41,7 @@ ret = ret = fs_tx_commit();
 
 The user does not have to add any other code apart from `fs_tx_begin()` and `fs_tx_commit()`. Once `fs_tx_commit` returns successfully, reads of both files will include both `foo` and `bar`.
 
+`syscall_wrapper` in the `benchmmark` directory has the more complete version of this example. You can find it [here](https://github.com/ut-osa/txfs/blob/master/benchmark/syscall_wrapper/example.c).
 ___
 
 ### Contact
