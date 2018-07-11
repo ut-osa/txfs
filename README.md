@@ -26,6 +26,23 @@ Inside `linux-3.18.22-mod`, compiling the kernel follows the standard method of 
 
 ___
 
+### Example
+
+We present an example where two files `file1` and `file2` are modified atomically. For the sake of brevity, we do not show error cases.
+
+~~~~
+ret = fs_tx_begin();
+fd1 = open("file1.txt", O_RDWR | O_APPEND, 0644);
+fd2 = open("file2.txt", O_RDWR | O_APPEND, 0644);
+write(fd1, "foo\n", 4);
+write(fd2, "bar\n", 4);
+ret = ret = fs_tx_commit();
+~~~~
+
+The user does not have to add any other code apart from `fs_tx_begin()` and `fs_tx_commit()`. Once `fs_tx_commit` returns successfully, reads of both files will include both `foo` and `bar`.
+
+___
+
 ### Contact
 
 Please contact us at `yige@cs.utexas.edu` with any questions.  Drop
