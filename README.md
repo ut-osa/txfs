@@ -13,5 +13,20 @@ Please
 the following paper if you use TxFS: [TxFS: Leveraging File-System Crash Consistency to Provide ACID Transactions](http://www.cs.utexas.edu/~vijay/papers/atc18-txfs.pdf). Yige Hu, Zhiting Zhu, Ian Neal, Youngjin Kwon, Tianyu Cheng, Vijay Chidambaram, and Emmett Witchel [ATC
 18](https://www.usenix.org/conference/atc18). [Bibtex](http://www.cs.utexas.edu/~vijay/bibtex/atc18-txfs.bib)
 
+___
+
+### In this repository
+
+This repository includes two main components:
+
+1. `linux-3.18.22-mod`. This contains the modified Linux kernel for TxFS. 
+2. `benchmark`. Contains benchmarks used to evaluate TxFS.
+
+___
+
+### Contact
+
+Please contact us at `yige@cs.utexas.edu` with any questions.  Drop
+us a note if you would like to use TxFS in your research. 
 
 
