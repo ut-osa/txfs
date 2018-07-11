@@ -20,7 +20,16 @@ ___
 This repository includes two main components:
 
 1. `linux-3.18.22-mod`. This contains the modified Linux kernel for TxFS. 
-2. `benchmark`. Contains benchmarks used to evaluate TxFS.
+ - `fs/user\_tx.c` defines the system calls provided by TxFS;
+ - `fs/memlog` contains TxFS's internal bookkeeping code;
+ - `fs/\*_memlog.c` contains TxFS's changes to the VFS layer;
+  - `fs/ext4/\*_memlog.c` contains TxFS's changes to ext4;
+ - `fs/jbd2/transaction.c` contains TxFS's changes to JBD2.
+2. `benchmark`. Contains benchmarks used to evaluate TxFS (we have only released microbenchmarks).
+  - `syscall\_wrapper` contains a system call wrapper providing API calls fs\_tx\_begin/end/abort, and an example showing how to use the wrapper;
+  - `syscall` contains a set of tests on the system calls supported by TxFS transactions;
+  - `multithread` contains multi-threaded tests;
+  - `stress\_test` randomly executes file system operations with multiple threads.
 
 Inside `linux-3.18.22-mod`, compiling the kernel follows the standard method of `configure` and `make`.  To see examples of TxFS in action, check out the examples inside `benchmark`.
 
