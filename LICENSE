@@ -2,7 +2,7 @@ Copyright (C) 2018 Yige Hu, Zhiting Zhu, Ian Neal, Youngjin Kwon, Tianyu Cheng, 
 
 The following licenses apply to the following parts of the code:
 
-- Linux kernel 3.0.0 and modifications (`linux-3.18.22-mod`)
+- Linux kernel 3.18.22 and modifications (`linux-3.18.22-mod`)
   GNU GPL v2.0 (see `linux-3.18.22-mod/COPYING`)
 
 - Any remaining code
