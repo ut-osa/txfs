@@ -1186,9 +1186,11 @@ void __mark_inode_dirty(struct inode *inode, int flags)
 		spin_lock(&inode->i_lock);
 
 	if ((inode->i_state & flags) != flags) {
+#if 0
 if (inode->i_size == 0 || inode->i_size == 8 || inode->i_size == 16 || inode->i_size == 24
     || inode->i_size == 32)
 fs_tx_debug("(inode->i_state & flags) != flags, i_ino = %d, i_state = %d, flags = %d", inode->i_ino, inode->i_state, flags);
+#endif
 		const int was_dirty = inode->i_state & I_DIRTY;
 
 		inode->i_state |= flags;

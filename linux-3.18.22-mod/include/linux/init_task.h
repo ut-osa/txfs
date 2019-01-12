@@ -167,9 +167,9 @@ extern struct task_group root_task_group;
 #endif
 
 #ifdef CONFIG_FS_TX
-# define INIT_FS_TX           \
-  .in_fs_tx = 0,					\
-  .t_transaction = NULL,
+# define INIT_FS_TX						\
+	.in_fs_tx = 0,							\
+	.t_transaction = NULL,
 #else
 # define INIT_FS_TX
 #endif
@@ -245,7 +245,7 @@ extern struct task_group root_task_group;
 	INIT_CPUSET_SEQ(tsk)						\
 	INIT_RT_MUTEXES(tsk)						\
 	INIT_VTIME(tsk)							\
-  INIT_FS_TX            \
+	INIT_FS_TX							\
 }
 
 

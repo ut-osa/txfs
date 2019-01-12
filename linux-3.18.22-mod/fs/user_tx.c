@@ -88,26 +88,6 @@ int fs_txabort(void)
 	current->in_fs_tx = 0;
 	jbd2_abort_current_user_tx();
 
-#ifdef CONFIG_FS_TX_DEBUG
-	atomic_dec(&tx_cnt);
-#endif
-	return ret;
-}
-
-int fs_txabort_tsk(struct task_struct *tsk)
-{
-	int ret = 0;
-	memlog_t *memlog = tsk->memlog;
-
-	fs_tx_debug("-------------- fs_txabort_tsk pid = %d --------------\n",
-			tsk->pid);
-	if (memlog) {
-		ret = abort_memlog(memlog);
-		free_memlog(memlog);
-		tsk->memlog = NULL;
-	}
-	tsk->in_fs_tx = 0;
-	jbd2_abort_tsk_user_tx(tsk);
 
 #ifdef CONFIG_FS_TX_DEBUG
 	atomic_dec(&tx_cnt);

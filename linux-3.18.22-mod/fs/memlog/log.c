@@ -370,6 +370,8 @@ int abort_memlog(memlog_t *memlog)
 	int ret = 0;
 	struct dentry_rec *drecord, *dnext;
 
+	local_bh_disable();
+
 	memlog_lock_pages(memlog);
 
 	list_for_each_entry_safe(drecord, dnext, &memlog->l_dentry_recs, r_log_list) {
@@ -389,6 +391,9 @@ int abort_memlog(memlog_t *memlog)
 	memlog_put_inode_references(memlog);
 	memlog_put_dentry_references(memlog);
 
+	current->in_fs_tx = 0;
+	local_bh_enable();
+
 	return ret;
 }
 
@@ -396,6 +401,13 @@ int commit_memlog(memlog_t *memlog)
 {
 	struct dentry_rec *drecord, *dnext;
 	int ret = 0, total = memlog->l_overestimated_credits;
+
+	/*
+	 * Need to disable softirq here. Otherwise, a signal, such as SIGINT,
+	 * can interfere with commit and do_exit() will call fs_txabort_tsk()
+	 * again, which may free pages that have already been free-ed.
+	 */
+	local_bh_disable();
 
 	/* Make sure to get all blocking locks before spinlocks. */
 
@@ -466,6 +478,9 @@ int commit_memlog(memlog_t *memlog)
 	current->in_fs_tx = 0;
 	ret = jbd2_submit_user_tx();
 
+	current->in_fs_tx = 0;
+	local_bh_enable();
+
 	return ret;
 
 out_unlock_all:
@@ -478,6 +493,8 @@ out_unlock_all:
 	memlog_unlock_inodes_bh(memlog);
 	memlog_unlock_pages(memlog);
 	memlog_unlock_inodes_mutex(memlog);
+
+	local_bh_enable();
 
 	return ret;
 }

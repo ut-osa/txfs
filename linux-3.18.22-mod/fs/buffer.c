@@ -130,12 +130,22 @@ EXPORT_SYMBOL(buffer_check_dirty_writeback);
  */
 void __wait_on_buffer(struct buffer_head * bh)
 {
+/*
+ * Cannot use busy-waiting here.
+ * This is an I/O wait. The kernel thread locks the buffer_head before
+ * submitting the BIO. It then waits on the LOCK bit to be cleared in
+ * the BIO's bottom half. Busy-waiting can leads to the scenario in
+ * which all CPU threads are waiting on spinning locks and no CPU
+ * resource can be scheduled to execute the bottom half.
+ */
+#if 0
 #ifdef CONFIG_FS_TX
 	if (current->in_fs_tx & MEMLOG_IN_COMMIT) {
 		if (bh->b_commit_pid != current->pid)
 			while (buffer_locked(bh));
 		return;
 	}
+#endif
 #endif
 
 	wait_on_bit_io(&bh->b_state, BH_Lock, TASK_UNINTERRUPTIBLE);

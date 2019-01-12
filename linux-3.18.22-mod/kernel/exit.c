@@ -672,7 +672,7 @@ void do_exit(long code)
 
 #ifdef CONFIG_FS_TX
 	/* Force aborting the tx if user forgot to end it. */
-	if (tsk->in_fs_tx) fs_txabort_tsk(tsk);
+	if (tsk->in_fs_tx) fs_txabort();
 #endif
 
 	profile_task_exit(tsk);

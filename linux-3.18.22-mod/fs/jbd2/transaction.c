@@ -1443,9 +1443,21 @@ BUG_ON(!bh);
 		if (buffer_shadow(bh)) {
 			JBUFFER_TRACE(jh, "on shadow: sleep");
 			jbd_unlock_bh_state(bh);
+			/*
+			 * Cannot use busy-waiting here.
+			 * This is an I/O wait. The kernel thread shadows
+			 * the buffer_head before submitting the BIO. It then
+			 * waits on the SHADOW bit to be cleared in the BIO's
+			 * bottom half. Busy-waiting can leads to the scenario
+			 * in which all CPU threads are waiting on spinning
+			 * locks and no CPU resource can be scheduled to execute
+			 * the bottom half.
+			 */
+#if 0
 			if (current->in_fs_tx & MEMLOG_IN_COMMIT)
 				while (test_bit(BH_Shadow, &bh->b_state));
 			else
+#endif
 			wait_on_bit_io(&bh->b_state, BH_Shadow,
 				       TASK_UNINTERRUPTIBLE);
 			goto repeat;

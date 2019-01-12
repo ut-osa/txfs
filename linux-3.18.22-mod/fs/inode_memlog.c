@@ -431,8 +431,16 @@ repeat:
 			 * Otherwise, the BDI threads will hang. */
 			if (lock_pages) lock_page(page_original);
 			clear_page_write(page_original);
-			clear_page_dirty_for_io(page_original);
-			truncate_inode_page(mapping, page_original);
+			/*
+			 * This is a work-around.
+			 * There is an execution part undiscovered which could
+			 * insert a page into the local radix tree without
+			 * tracking the original page in the lock list.
+			 */
+			if (PageLocked(page_original)) {
+				clear_page_dirty_for_io(page_original);
+				truncate_inode_page(mapping, page_original);
+			}
 			if (lock_pages) unlock_page(page_original);
 		}
 

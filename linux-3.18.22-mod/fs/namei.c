@@ -3650,6 +3650,10 @@ retry:
 		error = -ENOENT;
 		goto exit3;
 	}
+
+	/* TxFS currently do not support rmdir after this. */
+	BUG_ON(current->in_fs_tx);
+
 	error = security_path_rmdir(&nd.path, dentry);
 	if (error)
 		goto exit3;

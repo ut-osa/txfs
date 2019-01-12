@@ -2863,7 +2863,7 @@ static inline bool dir_relax(struct inode *inode)
 }
 
 #ifdef CONFIG_FS_TX
-extern int fs_txabort_tsk(struct task_struct *tsk);
+extern int fs_txabort(void);
 #endif
 
 #ifdef CONFIG_FS_TX_DEBUG
